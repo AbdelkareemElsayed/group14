@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+// session_start();
 
 function clean($input){
     
@@ -12,6 +12,7 @@ function clean($input){
     // return strip_tags(stripslashes(trim($input))); 
 
 }
+
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -59,12 +60,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     } else {
             
-         $_SESSION['studentData'] = [
-            'name' => $name,
-            'email' => $email,
-            'password' => $password];
+        //  $_SESSION['studentData'] = [
+        //     'name' => $name,
+        //     'email' => $email,
+        //     'password' => $password
+        // ];
+
+        // $_SESSION['message'] = 'Student Data . . . ';
+
+        // setcookie('userData', $name . ' ' . $email . ' ' . $password, time() + 86400, '/');
+
+
+        $file = fopen('info.txt', 'a') or die('Unable to open file!');
+
+
+        $text = time().rand(1,30)."||".$name . "||" . $email . "||" . $password . "\n";
+
+        fwrite($file, $text);
+
+        fclose($file);
+
+
+        echo 'Your Data Saved .';
+
 
     }
+
+
+
 }
 
 

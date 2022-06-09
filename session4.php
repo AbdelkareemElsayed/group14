@@ -51,9 +51,6 @@ session_start();
 //    echo  htmlspecialchars($name);
 
    // &lt; h1 &gt;   Root &lt; /h1  &gt; gt;  
-
-
-
    
    // $_SESSION['name'] = "ahmed";
    // $_SESSION['id'] = 20130100; 
