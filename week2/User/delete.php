@@ -1,5 +1,6 @@
 <?php 
 require 'dbConnection.php';
+require 'checkLogin.php';
 
  $id = $_GET['id'];
 
@@ -11,6 +12,7 @@ require 'dbConnection.php';
 # Remove User . . . 
  $sql = "delete from users where id = $id"; 
  $op = mysqli_query($con, $sql);
+
 
  if($op){
     
@@ -24,6 +26,7 @@ require 'dbConnection.php';
  }
 
 
+ require 'closeConnection.php';
    # Set Message Session 
     $_SESSION['message'] = $message;
 

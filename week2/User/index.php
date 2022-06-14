@@ -1,5 +1,6 @@
 <?php 
   require 'dbConnection.php';
+  require 'checkLogin.php';
 
  $sql = "select id,name,email,image from users";
 
@@ -59,7 +60,7 @@
     
         </div>
 
-        <a href="">+ Account</a>
+        <a href="create.php">+ Account</a>  ||  <a href="logout.php">LogOut</a>
 
         <table class='table table-hover table-responsive table-bordered'>
             <!-- creating our table heading -->
@@ -107,3 +108,9 @@
 </body>
 
 </html>
+
+
+<?php 
+require 'closeConnection.php';
+
+?>

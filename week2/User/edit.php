@@ -1,6 +1,7 @@
 <?php
 
 require 'dbConnection.php';
+require 'checkLogin.php';
 
 
 ##################################################################################################################
@@ -167,3 +168,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 </body>
 
 </html>
+
+
+<?php 
+require 'closeConnection.php';
+
+?>
