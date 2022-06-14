@@ -21,10 +21,6 @@ try {
   echo $e->getMessage();
 }
 
-
-
-
-
   /*
    CRUD
    C   = CREATE   . 

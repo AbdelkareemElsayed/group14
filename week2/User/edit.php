@@ -6,7 +6,7 @@ require 'dbConnection.php';
 ##################################################################################################################
  
 $id = $_GET['id'];
-$sql = "select id,name,email from users where id = $id";
+$sql = "select id,name,email,image from users where id = $id";
 $resultObj = mysqli_query($con, $sql);
 $data = mysqli_fetch_assoc($resultObj);
 
@@ -48,6 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['Email'] = "Invalid Email";
     }
+   
+   # Validate Image  . . . 
+    if (!empty($_FILES['image']['name'])) {
+
+        # Validate Extension . . . 
+        $imageType = $_FILES['image']['type'];
+        $extensionArray = explode('/', $imageType);
+        $extension =  strtolower(end($extensionArray));
+
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp'];    // PNG 
+
+        if (!in_array($extension, $allowedExtensions)) {
+
+            $errors['image'] = "File Type Not Allowed";
+        }
+    }  
+
+
+
 
     # Check ...... 
     if (count($errors) > 0) {
@@ -62,7 +81,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // DB cODE . . . 
 
-        $sql = "update users set name = '$name', email = '$email' where id = $id";
+        if (!empty($_FILES['image']['name'])) {
+
+          # Upload Image . . .
+        $finalName = uniqid() . time() . '.' . $extension;
+        $disPath = 'uploads/' . $finalName;
+        # Get Temp Path . . .
+        $tempName  = $_FILES['image']['tmp_name'];
+
+        if (move_uploaded_file($tempName, $disPath)) {
+
+            unlink('uploads/' . $data['image']);
+        }
+
+        }else{
+            $finalName = $data['image'];
+        }
+
+        $sql = "update users set name = '$name', email = '$email' , image = '$finalName'  where id = $id";
 
         $op =  mysqli_query($con, $sql);
 
@@ -113,6 +149,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <input type="email" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email" value = "<?php echo $data['email'];?>">
             </div>
 
+
+            <div class="form-group">
+                <label for="exampleInputPassword">Image</label>
+                <input type="file" name="image">
+            </div>
+
+            <p>
+                <img src="./uploads/<?php echo $data['image'];?>"   height="150px"   width="150px"  alt="">
+            </p>
 
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

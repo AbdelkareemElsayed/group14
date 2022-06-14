@@ -1,7 +1,7 @@
 <?php 
   require 'dbConnection.php';
 
- $sql = "select id,name,email from users";
+ $sql = "select id,name,email,image from users";
 
  $resultObj = mysqli_query($con, $sql);
 
@@ -67,6 +67,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Image</th>
                 <th>action</th>
             </tr>
 
@@ -78,6 +79,7 @@
                 <td><?php  echo $raw['id'];  ?></td>
                 <td><?php  echo $raw['name'];  ?></td>
                 <td><?php  echo $raw['email'];  ?></td>
+                <td><img src="./uploads/<?php echo $raw['image'];?>" width="80px"  height="80px"> </td>
                 <td>
                     <a href='delete.php?id=<?php  echo $raw['id'];  ?>' class='btn btn-danger m-r-1em'>Delete</a>
                     <a href='edit.php?id=<?php  echo $raw['id'];  ?>' class='btn btn-primary m-r-1em'>Edit</a>
