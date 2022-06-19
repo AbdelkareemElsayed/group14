@@ -160,14 +160,11 @@ id   appointment_id      doctor_id
 2        2                 1  
 
 
-
 doctors     appointments 
 1             m 
 m             1
 ================ 
 m             m 
-
-
 
 patient      docAppointments 
 1             m 
@@ -176,14 +173,10 @@ m             1
 m             m
 
 
-
 # Reservation . . . 
 id   patient_id    docAppointment_id        date            status
 1      1             1                     16/6/2022         1
 1      3             2                     16/6/2022         1 
-
-
-
 */
 
 

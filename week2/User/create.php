@@ -2,6 +2,13 @@
 
 require 'dbConnection.php';
 
+#############################################################################################################
+# Fetch departments . . . 
+$sql = "select id , title from departments";
+$result = mysqli_query($con, $sql);
+#############################################################################################################
+
+
 # Clean Function to sanitize the data
 function Clean($input)
 {
@@ -16,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $name     = Clean($_POST['name']);
     $password = Clean($_POST['password']);
     $email    = Clean($_POST['email']);
+    $dep_id   = (int)Clean($_POST['dep_id']);
 
 
     # Validate ...... 
@@ -40,6 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errors['password'] = "Field Required";
     } elseif (strlen($password) < 6) {
         $errors['Password'] = "Length Must be >= 6 chars";
+    }
+
+    # Validate dep_id . . . 
+    if (empty($dep_id)) {
+        $errors['dep_id'] = "Field Required";
+    }elseif(!is_int($dep_id)){
+        $errors['dep_id'] = "Invalid Department ID";
     }
 
 
@@ -88,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $password = md5($password);
             //   sha1()
-            $sql = "insert into users (name,email,password,image) values ('$name','$email','$password','$finalName')";
+            $sql = "insert into users (name,email,password,image,dep_id) values ('$name','$email','$password','$finalName',$dep_id)";
 
             $op =  mysqli_query($con, $sql);
 
@@ -140,6 +155,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <label for="exampleInputPassword">New Password</label>
                 <input type="password" class="form-control" required id="exampleInputPassword1" name="password" placeholder="Password">
             </div>
+
+
+
+            <div class="form-group">
+                <label for="exampleInputPassword">Department</label>
+                <select  class="form-control" required  name="dep_id" >
+
+                <?php 
+                while ($raw = mysqli_fetch_assoc($result)) {
+                 ?>
+                   <option value="<?php echo $raw['id'];?>"><?php echo $raw['title'];?></option>
+                <?php } ?>
+                </select>    
+            </div>
+
 
 
             <div class="form-group">

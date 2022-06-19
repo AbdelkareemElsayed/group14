@@ -1,10 +1,11 @@
-<?php 
-  require 'dbConnection.php';
-  require 'checkLogin.php';
+<?php
+require 'dbConnection.php';
+require 'checkLogin.php';
 
- $sql = "select id,name,email,image from users";
+//  $sql = "select id,name,email,image,dep_id from users";
+$sql = "select users.id,users.name,users.email,users.image  , departments.title from users   inner join departments on users.dep_id = departments.id";
 
- $resultObj = mysqli_query($con, $sql);
+$resultObj = mysqli_query($con, $sql);
 
 ?>
 
@@ -48,19 +49,19 @@
             <h1>Read Users </h1>
             <br>
 
-         <?php 
-          
+            <?php
+
             # Check if there is a message in the session 
-            if(isset($_SESSION['message'])){
+            if (isset($_SESSION['message'])) {
                 echo $_SESSION['message'];
                 unset($_SESSION['message']);
             }
-         
-         ?>
-    
+
+            ?>
+
         </div>
 
-        <a href="create.php">+ Account</a>  ||  <a href="logout.php">LogOut</a>
+        <a href="create.php">+ Account</a> || <a href="logout.php">LogOut</a>
 
         <table class='table table-hover table-responsive table-bordered'>
             <!-- creating our table heading -->
@@ -69,25 +70,28 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Image</th>
+                <th>Department</th>
                 <th>action</th>
             </tr>
 
-     <?php 
-         while($raw = mysqli_fetch_assoc($resultObj)){
-           
-     ?>
-            <tr>
-                <td><?php  echo $raw['id'];  ?></td>
-                <td><?php  echo $raw['name'];  ?></td>
-                <td><?php  echo $raw['email'];  ?></td>
-                <td><img src="./uploads/<?php echo $raw['image'];?>" width="80px"  height="80px"> </td>
-                <td>
-                    <a href='delete.php?id=<?php  echo $raw['id'];  ?>' class='btn btn-danger m-r-1em'>Delete</a>
-                    <a href='edit.php?id=<?php  echo $raw['id'];  ?>' class='btn btn-primary m-r-1em'>Edit</a>
-                </td>
-            </tr>
+            <?php
+            while ($raw = mysqli_fetch_assoc($resultObj)) {
 
-    <?php } ?>
+            ?>
+                <tr>
+                    <td><?php echo $raw['id'];  ?></td>
+                    <td><?php echo $raw['name'];  ?></td>
+                    <td><?php echo $raw['email'];  ?></td>
+                    <td><img src="./uploads/<?php echo $raw['image']; ?>" width="80px" height="80px"> </td>
+
+                    <td><?php echo $raw['title'];  ?></td>
+                    <td>
+                        <a href='delete.php?id=<?php echo $raw['id'];  ?>' class='btn btn-danger m-r-1em'>Delete</a>
+                        <a href='edit.php?id=<?php echo $raw['id'];  ?>' class='btn btn-primary m-r-1em'>Edit</a>
+                    </td>
+                </tr>
+
+            <?php } ?>
 
 
             <!-- end table -->
@@ -110,7 +114,7 @@
 </html>
 
 
-<?php 
+<?php
 require 'closeConnection.php';
 
 ?>
