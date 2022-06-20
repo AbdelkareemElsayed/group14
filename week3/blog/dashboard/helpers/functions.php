@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 # Clean Function to sanitize the data
@@ -10,46 +10,62 @@ function Clean($input)
 
 
 # Validate Function to validate the data 
-function Validate($input,$case,$length = 6){
+function Validate($input, $case, $length = 6)
+{
 
-    $status = true; 
+    $status = true;
 
     switch ($case) {
-    
-        case 'required' : 
-             if(empty($input)){
-                $status = false; 
-             }
-            break; 
 
-        case 'email':
-            if(!filter_var($input, FILTER_VALIDATE_EMAIL)){
-                $status = false; 
-            }
-            break; 
-            
-        case 'min':
-            if(strlen($input) < $length){
-                $status = false; 
+        case 'required':
+            if (empty($input)) {
+                $status = false;
             }
             break;
 
-        case 'max': 
-            if(strlen($input) > $length){
-                $status = false; 
+        case 'email':
+            if (!filter_var($input, FILTER_VALIDATE_EMAIL)) {
+                $status = false;
             }
-            break;    
+            break;
 
-        case 'int': 
-            if(!filter_var($input, FILTER_VALIDATE_INT)){
-                $status = false; 
+        case 'min':
+            if (strlen($input) < $length) {
+                $status = false;
             }
-           break;             
+            break;
 
-     }
+        case 'max':
+            if (strlen($input) > $length) {
+                $status = false;
+            }
+            break;
+
+        case 'int':
+            if (!filter_var($input, FILTER_VALIDATE_INT)) {
+                $status = false;
+            }
+            break;
+
+        case 'image':
+
+            # Validate Extension . . . 
+            $imageType = $input;
+            $extensionArray = explode('/', $imageType);
+            $extension =  strtolower(end($extensionArray));
+
+            $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp'];    // PNG 
+
+            if (!in_array($extension, $allowedExtensions)) {
+
+                $status = false;
+            }
+
+            break;
+    }
 
 
-     return $status;
+    return $status;
 }
 
 
@@ -58,19 +74,19 @@ function Validate($input,$case,$length = 6){
 
 
 #  Print  Message Function . . . 
-function Message($message = null){
-    if(isset($_SESSION['Message'])){
+function Message($message = null)
+{
+    if (isset($_SESSION['Message'])) {
         foreach ($_SESSION['Message'] as $key => $value) {
             # code...
-         echo $key.' : '.$value.'<br>';
+            echo $key . ' : ' . $value . '<br>';
         }
-     
-         unset($_SESSION['Message']);
 
-    }else{
-         echo ' <li class="breadcrumb-item active">'.$message.'</li>';
+        unset($_SESSION['Message']);
+    } else {
+        echo ' <li class="breadcrumb-item active">' . $message . '</li>';
     }
-} 
+}
 
 
 
@@ -78,7 +94,44 @@ function Message($message = null){
 
 
 # DO query Function . . .
-function DoQuery($query){
-    $result = mysqli_query($GLOBALS['con'],$query);
+function DoQuery($query)
+{
+    $result = mysqli_query($GLOBALS['con'], $query);
     return $result;
+}
+
+
+
+# Upload . . . 
+function Upload($file)
+{
+
+    $extensionArray = explode('/', $file['image']['type']);
+    $extension =  strtolower(end($extensionArray));
+    # Upload Image . . .
+    $finalName = uniqid() . time() . '.' . $extension;
+    $disPath = 'uploads/' . $finalName;
+    # Get Temp Path . . .
+    $tempName  = $file['image']['tmp_name'];
+
+    if (move_uploaded_file($tempName, $disPath)) {
+        return $finalName;
+    } else {
+        return false;
+    }
+}
+
+
+
+# Remove File 
+function RemoveFile($file)
+{
+    $filePath = 'uploads/' . $file;
+    if (file_exists($filePath)) {
+        unlink($filePath);
+        $status = true;
+    } else {
+        $status = false;
+    }
+    return $status;
 }

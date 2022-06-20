@@ -7,8 +7,8 @@ admin [name,email,password,image,phone]   [all]
 writer [name,email,password,image,phone]  [articles]
 
 
-# Roles . . . 
-id     title 
+# Roles . . .     true 
+id     title  
 
 
 # Users . . .
@@ -16,7 +16,7 @@ id     name    email    password    image    role_id
 
 
 
-# Categories . . .
+# Categories . . .     true 
 id     title
 
 
