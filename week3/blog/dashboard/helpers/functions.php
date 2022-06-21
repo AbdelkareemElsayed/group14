@@ -62,6 +62,14 @@ function Validate($input, $case, $length = 6)
             }
 
             break;
+
+        case 'date':
+            $dateArray = explode('-', $input);
+
+            if (!checkdate($dateArray[1], $dateArray[2], $dateArray[0])) {
+                $status = false;
+            }
+            break;
     }
 
 
