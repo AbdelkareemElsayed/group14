@@ -1,4 +1,9 @@
 <?php
+
+require 'helpers/dbConnection.php';
+require 'helpers/functions.php';
+require 'helpers/checkLogin.php';
+#####################################################################################################################
 require 'layouts/header.php';
 require 'layouts/nav.php';
 require 'layouts/sidNav.php';

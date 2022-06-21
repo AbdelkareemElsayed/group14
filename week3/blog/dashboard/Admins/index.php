@@ -1,6 +1,8 @@
 <?php
 require '../helpers/dbConnection.php';
 require '../helpers/functions.php';
+require '../helpers/checkLogin.php';
+require '../helpers/checkAdmin.php';
 
 #####################################################################################################################
 $sql = "select users.id , users.name,users.email,users.image,roles.title from users inner join roles on users.role_id = roles.id";

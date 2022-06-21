@@ -1,5 +1,23 @@
 
-        
+   <?php
+
+    $urlArray =  explode('/', $_SERVER['PHP_SELF']);
+
+    $ArrayCount = count($urlArray);
+
+    $last = $urlArray[$ArrayCount - 1];
+    $preLast = $urlArray[$ArrayCount - 2];
+
+
+    if ($last == 'index.php' && $preLast == 'dashboard') {
+        require 'helpers/closeConnection.php';
+    } else {
+        require '../helpers/closeConnection.php';
+    }
+    
+   
+   
+   ?>     
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-between small">

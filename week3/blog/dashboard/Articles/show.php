@@ -8,6 +8,16 @@ $sql = "select articles.* , categories.title as cat_title ,  users.name as UserN
 $op  = DoQuery($sql);
 $data = mysqli_fetch_assoc($op);
 
+
+# Check Owner . . . 
+   if(!checkOwner($data['addedBy'])){
+     
+    $_SESSION['Message'] = ['Error' => 'You are not allowed to Access this article'];
+
+     header("Location: ".url('Articles/index.php'));
+     exit; 
+   }
+
 ################################################################################################################
 require '../layouts/header.php';
 require '../layouts/nav.php';

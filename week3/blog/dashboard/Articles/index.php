@@ -3,7 +3,14 @@ require '../helpers/dbConnection.php';
 require '../helpers/functions.php';
 
 #####################################################################################################################
+if($_SESSION['user']['role_id'] == 3){
 $sql = "select articles.* , categories.title as cat_title ,  users.name as UserName from articles inner join categories on articles.cat_id = categories.id  inner join users on articles.addedBy = users.id ";
+}else{
+    $sql = "select articles.* , categories.title as cat_title ,  users.name as UserName from articles inner join categories on articles.cat_id = categories.id  inner join users on articles.addedBy = users.id  where articles.addedBy = ".$_SESSION['user']['id'];
+   
+}
+
+
 $op  = DoQuery($sql);
 
 ################################################################################################################

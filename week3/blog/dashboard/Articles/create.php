@@ -76,7 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $message = ["Error" => "Error Uploading File"];
     } else {
 
-      $sql = "INSERT INTO articles (title,content,date,image,cat_id,addedBy) VALUES ('$title','$content',$date,'$imageName',$cat_id,5)";
+      $user_id = $_SESSION['user']['id'];
+      $sql = "INSERT INTO articles (title,content,date,image,cat_id,addedBy) VALUES ('$title','$content',$date,'$imageName',$cat_id,$user_id)";
       $op  = DoQuery($sql);
 
       if ($op) {

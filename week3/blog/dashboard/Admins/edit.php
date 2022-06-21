@@ -1,6 +1,8 @@
 <?php
 require '../helpers/dbConnection.php';
 require '../helpers/functions.php';
+require '../helpers/checkLogin.php';
+require '../helpers/checkAdmin.php';
 ################################################################################################################
 // select roles . . . 
 $sql = "select * from roles";

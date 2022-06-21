@@ -143,3 +143,30 @@ function RemoveFile($file)
     }
     return $status;
 }
+
+
+
+
+// "http://localhost/group14/week3/blog/dashboard/<?php echo $module
+
+
+function url($input){
+
+ return   'http://'.$_SERVER['HTTP_HOST'].'/group14/week3/blog/dashboard/'.$input; 
+
+}
+
+
+
+  function checkOwner($id){
+
+     if(($_SESSION['user']['role_id'] == 5) && ($_SESSION['user']['id'] != $id)){
+     
+            $status = false; 
+     
+        }else{
+            $status = true; 
+        }
+
+        return $status; 
+  }

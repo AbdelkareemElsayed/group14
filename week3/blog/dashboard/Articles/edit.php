@@ -2,18 +2,29 @@
 require '../helpers/dbConnection.php';
 require '../helpers/functions.php';
 ################################################################################################################
-// select roles . . . 
-$sql = "select * from roles";
-$rolesObj  = DoQuery($sql);
+// select category . . . 
+$sql = "select * from categories";
+$catsObj  = DoQuery($sql);
 ################################################################################################################
 
 ################################################################################################################
 # Fetch Raw Data . . . 
 $id = $_GET['id'];
-$sql = "select * from users where id = $id ";
+$sql = "select articles.* , categories.title as cat_title ,  users.name as UserName , users.image as userImage from articles inner join categories on articles.cat_id = categories.id  inner join users on articles.addedBy = users.id where articles.id = $id";
 $op  = DoQuery($sql);
-$AccountData = mysqli_fetch_assoc($op);
+$BlogData = mysqli_fetch_assoc($op);
 ################################################################################################################
+# Check Owner . . . 
+if(!checkOwner($BlogData['addedBy'])){
+     
+    $_SESSION['Message'] = ['Error' => 'You are not allowed to Access this article'];
+
+     header("Location: ".url('Articles/index.php'));
+     exit; 
+   }
+################################################################################################################
+
+
 
 
 // Logic . . .
@@ -118,37 +129,39 @@ require '../layouts/sidNav.php';
 
 
 
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $AccountData['id']; ?>" method="post" enctype="multipart/form-data">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $BlogData['id']; ?>" method="post" enctype="multipart/form-data">
+
 
             <div class="form-group">
-                <label for="exampleInputName">Name</label>
-                <input type="text" class="form-control" required id="exampleInputName" aria-describedby="" name="name" placeholder="Enter Name" value="<?php echo $AccountData['name']; ?>">
+                <label for="exampleInputName">Title</label>
+                <input type="text" class="form-control" required id="exampleInputName" aria-describedby="" name="title" placeholder="Enter Title" value="<?php echo $BlogData['title']?>">
             </div>
 
 
             <div class="form-group">
-                <label for="exampleInputEmail">Email address</label>
-                <input type="email" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email" value="<?php echo $AccountData['email']; ?>">
+                <label for="exampleInputEmail">Content</label>
+                <textarea class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" name="content" placeholder="Enter content"> <?php echo $BlogData['content']?></textarea>
             </div>
 
-            <!-- <div class="form-group">
-        <label for="exampleInputPassword">Password</label>
-        <input type="password" class="form-control" required id="exampleInputPassword1" name="password" placeholder="Password">
-      </div> -->
+            <div class="form-group">
+                <label for="exampleInputPassword">Date</label>
+                <input type="date" class="form-control" required id="exampleInputPassword1" name="date"   value="<?php echo date('Y-m-d',$BlogData['date'])?>"> 
+            </div>
 
 
 
             <div class="form-group">
-                <label for="exampleInputPassword">Roles</label>
+                <label for="exampleInputPassword">Category</label>
                 <select class="form-control" required name="role_id">
 
                     <?php
-                    while ($data = mysqli_fetch_assoc($rolesObj)) {
+                    while ($data = mysqli_fetch_assoc($catsObj)) {
                     ?>
 
-                        <option value="<?php echo $data['id']; ?>" <?php if ($data['id'] == $AccountData['role_id']) {
-                                                                        echo 'selected';
-                                                                    }  ?>><?php echo $data['title']; ?></option>
+                        <option value="<?php echo $data['id']; ?>" 
+                        <?php if ($data['id'] == $BlogData['cat_id']) { echo 'selected';}  ?>>
+                        <?php echo $data['title']; ?>
+                       </option>
 
                     <?php }  ?>
 
@@ -162,7 +175,7 @@ require '../layouts/sidNav.php';
                 <input type="file" name="image">
             </div>
             <p>
-                <img src="uploads/<?php echo $AccountData['image']; ?>" alt="" height="250px" width="250px">
+                <img src="uploads/<?php echo $BlogData['image']; ?>" alt="" height="250px" width="250px">
             </p>
 
 
