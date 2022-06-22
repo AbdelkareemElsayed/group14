@@ -1,3 +1,14 @@
+<?php 
+  require './dashboard/helpers/dbConnection.php';
+  require './dashboard/helpers/functions.php';
+
+################################################################################################################
+  $sql = "select articles.* , categories.title as cat_title ,  users.name as UserName , users.image as UserImage  from articles inner join categories on articles.cat_id = categories.id  inner join users on articles.addedBy = users.id ";
+  $op = DoQuery($sql);
+################################################################################################################
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -311,29 +322,36 @@
   <div class="container">
     <div class="row">
      
+
+
+
+       <?php 
+       
+          while($data = mysqli_fetch_assoc($op)){
+       ?>
     
     <div class="col-lg-6 col-md-6">
         <div class="post">
           <div class="post-image">
-            <img class="img-fluid h-100 w-100" src="resources/images/blog/01.jpg" alt="">
+            <img class="img-fluid h-100 w-100" src="<?php echo url('Articles/uploads/'.$data['image'])?>" alt="">
           </div>
           <div class="post-desc">
-            <div class="post-date">23 <span>November 2018</span>
+            <div class="post-date"> <?php echo date('d',$data['date'])?> <span><?php echo date('F Y',$data['date'])?></span>
             </div>
             <div class="post-title">
-              <h5><a href="blog-details.html">The Powerfull look for best in 2018</a></h5>
+              <h5><a href="blog-details.html"><?php echo $data['title'];?></a></h5>
             </div>
-            <p>Phasellus eget purus id felis dignissim convallis Suspendisse et augue dui gravida</p>
+            <p><?php echo    substr($data['content'],0,80);?></p>
             <div class="post-author">
               <div class="post-author-img">
-                <img class="img-fluid" src="resources/images/thumbnail/01.png" alt="">
-              </div> <span>Romi kelly</span>
+                <img class="img-fluid" src="<?php echo url('Admins/uploads/'.$data['UserImage'])?>" alt="">
+              </div> <span><?php echo $data['UserName'];?></span>
             </div>
           </div>
         </div>
       </div>
 
-
+     <?php } ?>
      
 
 
