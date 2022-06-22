@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 
 articles [ title , content , image , date , category , author [name , image] ]
@@ -35,8 +35,9 @@ m             1
 m             1 
 
 
-*/   
+*/
 
 
 
 ?>
+
