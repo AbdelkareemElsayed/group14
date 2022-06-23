@@ -60,40 +60,46 @@ echo $student->getName();
 
 
 
-class user
-{
+// class user
+// {
 
-    public $name;
-    public $email;
-    public $password;
-
-
-        function __construct($name,$email,$password)
-        {
-            $this->name = $name;
-            $this->email = $email;
-            $this->password = $password;
-        }
+//     public $name;
+//     public $email;
+//     public $password;
 
 
-  function getUserInfo(){
-    return $this->name.'<br>'.$this->email.'<br>'.$this->password.'<br>';
-  }
+//         function __construct($name,$email,$password)
+//         {
+//             $this->name = $name;
+//             $this->email = $email;
+//             $this->password = $password;
+//         }
 
 
-   function message(){
+//   function getUserInfo(){
+//     return $this->name.'<br>'.$this->email.'<br>'.$this->password.'<br>';
+//   }
 
-    return 'welcome to oop';
-   }
+
+//    function message(){
+
+//     return 'welcome to oop';
+//    }
 
 
-   function __destruct()
-   {
-    echo  'user object destroyed';
-   }
+//    function __destruct()
+//    {
+//     echo  'user object destroyed';
+//    }
 
-}
+// }
 
-$student = new user('X','x@gmail.com','123xxx'); 
+// $student = new user('X','x@gmail.com','123xxx'); 
 
-echo $student->getUserInfo(); 
+// echo $student->getUserInfo(); 
+
+
+
+
+
+
