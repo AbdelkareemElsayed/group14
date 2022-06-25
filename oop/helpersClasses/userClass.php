@@ -1,4 +1,6 @@
 <?php
+session_start(); 
+
 require 'DB.php';
 require 'validator.php';
 
@@ -76,4 +78,94 @@ class User
 
       return $result;
    }
+
+
+   public function list(){
+      $DB = new DB();
+      $sql = "select * from students";
+      $op = $DB->doQuery($sql);
+      return $op;
+   }
+
+
+
+   public function delete($id){
+      $DB = new DB();
+      $sql = "delete from students where id = $id";
+      $op = $DB->doQuery($sql);
+      return $op;
+   }
+
+
+   public function edit($id){
+      $DB = new DB();
+      $sql = "select * from students where id = $id";
+      $op = $DB->doQuery($sql);
+      $data = mysqli_fetch_assoc($op);
+      return $data;
+   }
+
+
+
+
+
+   
+   public function update($data,$id)
+   {
+
+      # Create Validator OBJ . . . 
+      $validator = new Validator();
+
+
+      # SET THE PROPERTIES OF THE OBJECT . . .
+      $this->name     = $validator->Clean($data['name']);
+      $this->email    = $validator->Clean($data['email']);
+
+
+      # Validate Inputs . . . 
+      $errors = [];
+
+      $result = [];
+
+      # validate name ....
+      if (!$validator->Validate($this->name, 'required')) {
+         $errors['name'] = "Field Required";
+      }
+
+      # validate email
+      if (!$validator->Validate($this->email, 'required')) {
+         $errors['email'] = "Field Required";
+      } elseif (!$validator->Validate($this->email, 'email')) {
+         $errors['email'] = "Invalid Email";
+      }
+
+
+      # Check if there are any errors . . .
+      if (count($errors) > 0) {
+         $result = ['status' => false, 'message' => $errors];
+      } else {
+
+
+         $DB = new DB();
+
+         $sql = "update students set name = '$this->name', email = '$this->email' where id = $id";
+         
+         $op =  $DB->doQuery($sql);
+
+         if ($op) {
+            $result = ['status' => true, 'message' => 'User updated Successfully'];
+         } else {
+            $result = ['status' => true, 'message' => 'User updating Failed'];
+         }
+      }
+
+
+      return $result;
+   }
+
+
+
+
+
+
 }
