@@ -35,7 +35,7 @@ class DB
 }
 
 
-$dbObj = new DB();
+// $dbObj = new DB();
 
 // $sql = "insert into departments (title,code) values ('test1','123')"; 
     
@@ -43,14 +43,14 @@ $dbObj = new DB();
 
 // $sql = "delete from departments where id = 5";
 
-$sql = "select * from departments";
+// $sql = "select * from departments";
 
-$result = $dbObj->doQuery($sql);
+// $result = $dbObj->doQuery($sql);
 
 
- while ($row = mysqli_fetch_assoc($result)) {
-    echo $row['id'] . $row['title'] . $row['code'] . '<br>';
-}
+//  while ($row = mysqli_fetch_assoc($result)) {
+//     echo $row['id'] . $row['title'] . $row['code'] . '<br>';
+// }
 
 
 

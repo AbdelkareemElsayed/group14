@@ -85,33 +85,33 @@ function Validate($input, $case, $length = 6)
 
 
 
- $obj = new validator;
+//  $obj = new validator;
 
- $name = "root"; 
- $email = "rootyahoo.com";
+//  $name = "root"; 
+//  $email = "rootyahoo.com";
 
-# Clean . . . 
-$name =  $obj->Clean($name);
-$email = $obj->Clean($email);
+// # Clean . . . 
+// $name =  $obj->Clean($name);
+// $email = $obj->Clean($email);
 
-# Validation . . . 
-$errors = [];
-if (!$obj->Validate($name, 'required')) {
-    $errors['name'] = 'Name is required';
-}
+// # Validation . . . 
+// $errors = [];
+// if (!$obj->Validate($name, 'required')) {
+//     $errors['name'] = 'Name is required';
+// }
 
-if (!$obj->Validate($email, 'required')) {
-    $errors['email'] = 'Email is required';
-} elseif (!$obj->Validate($email, 'email')) {
-    $errors['email'] = 'Email is required';
-}
+// if (!$obj->Validate($email, 'required')) {
+//     $errors['email'] = 'Email is required';
+// } elseif (!$obj->Validate($email, 'email')) {
+//     $errors['email'] = 'Email is required';
+// }
 
 
-  if(count($errors) > 0){
-    foreach ($errors as $key => $value) {
-        # code...
-        echo '* '.$key.' : '.$value.'<br>';
-    }
-  }else{
-    echo 'No Errors';
-  }
+//   if(count($errors) > 0){
+//     foreach ($errors as $key => $value) {
+//         # code...
+//         echo '* '.$key.' : '.$value.'<br>';
+//     }
+//   }else{
+//     echo 'No Errors';
+//   }
